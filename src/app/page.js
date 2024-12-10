@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [editingEvent, setEditingEvent] = useState(null);
   const [selectedEventID, setSelectedEventID] = useState(null);
+  const today = new Date();
 
   useEffect(()=> {
     const startDate = startOfWeek(startOfMonth(currentDate));
@@ -37,7 +38,7 @@ export default function Home() {
   };
 
   const handleToday = () => {
-    setCurrentDate(new Date());
+    setCurrentDate(today);
   };
 
   const openModal = (date, event = null) => {
@@ -100,11 +101,11 @@ export default function Home() {
   
   return (
     <div className={styles.page}>
-      <h1>Calendar</h1>
+      <h1>Welcome to my Calendar!</h1>
 
       <div className={styles.calendar}>
         <div className={styles.header}>
-          <button className={styles.today} onClick={handleToday}>Today</button>
+          <button className={styles.todaybutton} onClick={handleToday}>Today</button>
           <div className={styles.center}>
             <h2>{format(currentDate, "MMMM yyyy")}</h2>
           </div>
@@ -123,7 +124,8 @@ export default function Home() {
           {days.map((date, idx) => (
             <div
               key={idx}
-              className={[styles.calendarDay, !isSameMonth(date, currentDate) && styles.inactive].filter(Boolean).join(' ')}
+              className={`${styles.calendarDay} ${
+                date && date.toDateString() === today.toDateString() ? styles.today : ''}`}
               onClick={() => openModal(date)}>
                 <div className={styles.date}>{format(date, "d")}</div>
                 {events
