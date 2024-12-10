@@ -124,8 +124,10 @@ export default function Home() {
           {days.map((date, idx) => (
             <div
               key={idx}
-              className={`${styles.calendarDay} ${
-                date && date.toDateString() === today.toDateString() ? styles.today : ''}`}
+              className={[styles.calendarDay, !isSameMonth(date, currentDate) && styles.inactive, 
+                date && date.toDateString() === new Date().toDateString() && styles.today]
+                .filter(Boolean)
+                .join(' ')}
               onClick={() => openModal(date)}>
                 <div className={styles.date}>{format(date, "d")}</div>
                 {events
